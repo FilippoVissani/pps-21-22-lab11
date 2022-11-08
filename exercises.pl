@@ -81,5 +81,5 @@ anypath(G, N1, N2, [e(N1, N3)|P]) :- member(e(N1, N3), G), anypath(G, N3, N2, P)
 % all the nodes that can be reached from Node
 % Suppose the graph is NOT circular !
 % Use findall and anyPath !
-% allreaching([e(1,2),e(2,3),e(3,5)],1,[2,3,5]).
-allreaching(G, N, L) :- findall(N2, member(e(N, N2), G), _), allreaching(G, N2, L).
+% allreaching([e(1,2),e(2,3),e(3,5)],1,L).
+allreaching(G, N1, L) :- findall(N2, anypath(G, N1, N2, _), L).
