@@ -40,3 +40,13 @@ fromList([H1, H2|T], [e(H1, H2)|L]) :- fromList([H2|T], L).
 fromCircList([H|T], G) :- fromCircList([H|T], H, G).
 fromCircList([E], H, [e(E, H)]).
 fromCircList([E1, E2|T], H, [e(E1, E2)|L]) :- fromCircList([E2|T], H, L).
+
+% exercise 2.3
+% inDegree(+Graph, +Node, -Deg)
+% Deg is the number of edges leading into Node
+% in_degree([e(1,2), e(1,3), e(3,2)], 2, 2).
+% in_degree([e(1,2), e(1,3), e(3,2)], 3, 1).
+% in_degree([e(1,2), e(1,3), e(3,2)], 1, 0).
+in_degree([], _, 0).
+in_degree([e(_,X)|T], N, C) :- X \= N, in_degree(T, N, C).
+in_degree([e(_,N)|T], N, C) :- in_degree(T, N, C2), C is C2 + 1.
