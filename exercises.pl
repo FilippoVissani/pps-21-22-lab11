@@ -25,3 +25,18 @@ dropLast(X, [H|T], [H|L]) :- dropLast(X, T, L), !.
 dropAll(E, [], []).
 dropAll(E, [H|T], [H|T2]) :- E \= H, dropAll(E, T, T2).
 dropAll(E, [E|T], T2) :- dropAll(E, T, T2).
+
+% exercise 2.1
+% fromList(+List, -Graph)
+fromList([_], []).
+fromList([H1, H2|T], [e(H1, H2)|L]) :- fromList([H2|T], L).
+
+% exercise 2.2
+% fromCircList(+List, -Graph)
+% which implementation?
+% fromCircList([1,2,3],[e(1,2),e(2,3),e(3,1)]).
+% fromCircList([1,2],[e(1,2),e(2,1)]).
+% fromCircList([1],[e(1,1)]).
+fromCircList([H|T], G) :- fromCircList([H|T], H, G).
+fromCircList([E], H, [e(E, H)]).
+fromCircList([E1, E2|T], H, [e(E1, E2)|L]) :- fromCircList([E2|T], H, L).
