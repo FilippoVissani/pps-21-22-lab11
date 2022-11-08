@@ -11,7 +11,7 @@ all2(H, [H2|T]) :- copy_term(H, H2), all2(H, T).
 % exercise 1.1
 % dropAny(?Elem, ?List, ?OutList)
 dropAny(E, [E|T], T).
-dropAny(X, [H|T], [H|L]) :- dropAny(X, T, L).
+dropAny(E, [H|T], [H|L]) :- dropAny(E, T, L).
 
 % dropFirst: drops only the first occurrence
 dropFirst(E, [E|T], T) :- !.
@@ -65,3 +65,21 @@ dropNode(G, N, OG) :- dropAll(G, e(N, _), G2), dropAll(G2, e(_, N), GO).
 % reaching([e(1,2),e(1,3),e(2,3)],1,L). -> L/[2,3]
 % reaching([e(1,2),e(1,2),e(2,3)],1,L). -> L/[2,2])
 reaching(G, N, L) :- findall(N2, member(e(N, N2), G), L).
+
+% exercise 2.6
+% anypath (+ Graph , + Node1 , + Node2 , - ListPath )
+% a path from Node1 to Node2
+% if there are many path , they are showed 1 - by -1
+% anypath([e(1,2),e(1,3),e(2,3)],1,3,L).
+% L/[e(1,2),e(2,3)]
+% L/[e(1,3)]
+anypath(G, N1, N2, [e(N1, N2)]) :- member(e(N1, N2), G).
+anypath(G, N1, N2, [e(N1, N3)|P]) :- member(e(N1, N3), G), anypath(G, N3, N2, P).
+
+% exercise 2.7
+% allreaching (+ Graph , + Node , - List )
+% all the nodes that can be reached from Node
+% Suppose the graph is NOT circular !
+% Use findall and anyPath !
+% allreaching([e(1,2),e(2,3),e(3,5)],1,[2,3,5]).
+allreaching(G, N, L) :- findall(N2, member(e(N, N2), G), _), allreaching(G, N2, L).
